@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ExShop #CHEAP - Avis clients</title>
+<title>Test Guild V2 - Avis clients</title>
 <style>
   :root {
     color-scheme: dark;
@@ -179,19 +179,124 @@
     padding: 24px;
     border-top: 1px solid var(--border);
   }
+  .card .people {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+  }
+  .mention {
+    display: inline;
+    background: rgba(88, 101, 242, 0.3);
+    color: #c9cdfb;
+    border-radius: 3px;
+    padding: 0 3px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .mention:hover {
+    background: rgba(88, 101, 242, 0.55);
+    text-decoration: none;
+  }
+  .profile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  .profile-overlay.visible {
+    display: flex;
+  }
+  .profile-card {
+    position: relative;
+    width: 300px;
+    max-width: 100%;
+    background: var(--surface);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  }
+  .profile-banner {
+    height: 60px;
+  }
+  .profile-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .profile-avatar-wrap {
+    margin-top: -40px;
+    padding: 0 16px;
+  }
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 6px solid var(--surface);
+    background: var(--surface-alt);
+    object-fit: cover;
+    display: block;
+  }
+  .profile-body {
+    padding: 8px 16px 18px;
+  }
+  .profile-username {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+  .profile-id {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+  .profile-stats {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    text-align: center;
+  }
+  .profile-stats .stat-value {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .profile-stats .stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
 </style>
 </head>
 <body>
 <header>
-  <img src="https://cdn.discordapp.com/icons/1529585731159457873/e7f79842196eefadfc67c474851ab771.webp?size=128" alt="Icone du serveur">
-  <h1>ExShop #CHEAP</h1>
+  
+  <h1>Test Guild V2</h1>
   <p>Avis et retours de notre communaute</p>
 </header>
 <main>
   <div class="stats">
     <div class="stat-card"><div class="value">2</div><div class="label">Avis au total</div></div>
-    <div class="stat-card"><div class="value">5.00 / 5</div><div class="label">Note moyenne</div></div>
-    <div class="stat-card"><div class="value">1</div><div class="label">Membres ayant laisse un avis</div></div>
+    <div class="stat-card"><div class="value">4.50 / 5</div><div class="label">Note moyenne</div></div>
+    <div class="stat-card"><div class="value">2</div><div class="label">Membres ayant laisse un avis</div></div>
   </div>
   <div class="controls">
     <input type="text" id="search" placeholder="Rechercher un mot-cle...">
@@ -206,9 +311,38 @@
   <div class="empty" id="empty" style="display:none;">Aucun avis ne correspond a votre recherche.</div>
 </main>
 <footer>Genere automatiquement par VouchsBot</footer>
-<script id="vouch-data" type="application/json">[{"id":2,"rating":5,"product":"Décoration profil","seller":"@usrmnk","buyer":"@indysky_","comment":"","image":null,"date":"2026-07-30T05:40:44.249Z","source":"Transaction verifiee"},{"id":1,"rating":5,"product":"Décoration profil","seller":"@usrmnk","buyer":"@indysky_","comment":"","image":null,"date":"2026-07-30T05:08:30.688Z","source":"Transaction verifiee"}]</script>
+<div class="profile-overlay" id="profile-overlay">
+  <div class="profile-card">
+    <button class="profile-close" id="profile-close" aria-label="Fermer">&#10005;</button>
+    <div class="profile-banner" id="profile-banner"></div>
+    <div class="profile-avatar-wrap">
+      <img class="profile-avatar" id="profile-avatar" alt="Avatar">
+    </div>
+    <div class="profile-body">
+      <div class="profile-username" id="profile-username"></div>
+      <div class="profile-id" id="profile-id"></div>
+      <div class="profile-stats">
+        <div>
+          <div class="stat-value" id="profile-buyer-count">0</div>
+          <div class="stat-label">Achats</div>
+        </div>
+        <div>
+          <div class="stat-value" id="profile-seller-count">0</div>
+          <div class="stat-label">Ventes</div>
+        </div>
+        <div>
+          <div class="stat-value" id="profile-avg-rating">N/A</div>
+          <div class="stat-label">Note moyenne</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="vouch-data" type="application/json">[{"id":2,"rating":4,"product":null,"price":null,"seller":null,"sellerId":null,"buyer":"@autreClient","buyerId":"333333333333333333","comment":"Avis general","image":null,"date":"2026-07-30T05:54:39.771Z","source":"Avis general"},{"id":1,"rating":5,"product":"Decoration profil","price":"5.6eur ltc","seller":"@sellerTest","sellerId":"222222222222222222","buyer":"@buyerTest","buyerId":"111111111111111111","comment":"Tres bon vendeur","image":null,"date":"2026-07-30T05:54:39.766Z","source":"Transaction verifiee"}]</script>
+<script id="profile-data" type="application/json">{"111111111111111111":{"tag":"@buyerTest","avatar":"https://cdn.discordapp.com/embed/avatars/0.png"},"222222222222222222":{"tag":"@sellerTest","avatar":"https://cdn.discordapp.com/embed/avatars/1.png"},"333333333333333333":{"tag":"@autreClient","avatar":null}}</script>
 <script>
   const data = JSON.parse(document.getElementById('vouch-data').textContent);
+  const profiles = JSON.parse(document.getElementById('profile-data').textContent);
   const grid = document.getElementById('grid');
   const emptyState = document.getElementById('empty');
   const searchInput = document.getElementById('search');
@@ -223,6 +357,15 @@
   function formatDate(iso) {
     const d = new Date(iso);
     return d.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+  }
+
+  function createMention(userId, label) {
+    const el = document.createElement('span');
+    el.className = 'mention';
+    el.textContent = '@' + label;
+    el.dataset.userId = userId;
+    el.addEventListener('click', () => openProfile(userId));
+    return el;
   }
 
   function render() {
@@ -261,15 +404,31 @@
       topRow.appendChild(tagsGroup);
       card.appendChild(topRow);
 
-      if (vouch.product || vouch.seller) {
+      if (vouch.product || vouch.price) {
         const meta = document.createElement('div');
         meta.className = 'meta';
         const parts = [];
         if (vouch.product) parts.push(vouch.product);
-        if (vouch.seller) parts.push('par ' + vouch.seller);
+        if (vouch.price) parts.push(vouch.price);
         meta.textContent = parts.join(' - ');
         card.appendChild(meta);
       }
+
+      const people = document.createElement('div');
+      people.className = 'people';
+      if (vouch.sellerId) {
+        const sellerLabel = document.createElement('span');
+        sellerLabel.textContent = 'Vendeur : ';
+        people.appendChild(sellerLabel);
+        people.appendChild(createMention(vouch.sellerId, vouch.seller ? vouch.seller.replace(/^@/, '') : 'Vendeur'));
+      }
+      if (vouch.buyerId) {
+        const buyerLabel = document.createElement('span');
+        buyerLabel.textContent = 'Client : ';
+        people.appendChild(buyerLabel);
+        people.appendChild(createMention(vouch.buyerId, vouch.buyer ? vouch.buyer.replace(/^@/, '') : 'Client'));
+      }
+      if (people.childNodes.length > 0) card.appendChild(people);
 
       const comment = document.createElement('div');
       comment.className = 'comment';
@@ -305,6 +464,65 @@
       currentRating = Number(btn.dataset.rating);
       render();
     });
+  });
+
+  const profileOverlay = document.getElementById('profile-overlay');
+  const profileBanner = document.getElementById('profile-banner');
+  const profileAvatar = document.getElementById('profile-avatar');
+  const profileUsername = document.getElementById('profile-username');
+  const profileIdEl = document.getElementById('profile-id');
+  const profileBuyerCount = document.getElementById('profile-buyer-count');
+  const profileSellerCount = document.getElementById('profile-seller-count');
+  const profileAvgRating = document.getElementById('profile-avg-rating');
+  const profileCloseBtn = document.getElementById('profile-close');
+
+  function hashHue(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return Math.abs(hash) % 360;
+  }
+
+  function computeUserStats(userId) {
+    const asBuyer = data.filter((v) => v.buyerId === userId);
+    const asSeller = data.filter((v) => v.sellerId === userId);
+    const avg = asSeller.length > 0 ? asSeller.reduce((sum, v) => sum + v.rating, 0) / asSeller.length : 0;
+    return { buyerCount: asBuyer.length, sellerCount: asSeller.length, avgRating: avg };
+  }
+
+  function openProfile(userId) {
+    const profile = profiles[userId] || { tag: 'Utilisateur inconnu', avatar: null };
+    const stats = computeUserStats(userId);
+    const hue = hashHue(String(userId));
+
+    profileBanner.style.background = 'linear-gradient(135deg, hsl(' + hue + ', 65%, 45%), hsl(' + ((hue + 40) % 360) + ', 55%, 30%))';
+    if (profile.avatar) {
+      profileAvatar.src = profile.avatar;
+      profileAvatar.style.display = 'block';
+    } else {
+      profileAvatar.removeAttribute('src');
+      profileAvatar.style.display = 'none';
+    }
+    profileUsername.textContent = '@' + profile.tag.replace(/^@/, '');
+    profileIdEl.textContent = 'ID : ' + userId;
+    profileBuyerCount.textContent = String(stats.buyerCount);
+    profileSellerCount.textContent = String(stats.sellerCount);
+    profileAvgRating.textContent = stats.sellerCount > 0 ? stats.avgRating.toFixed(2) + ' / 5' : 'N/A';
+
+    profileOverlay.classList.add('visible');
+  }
+
+  function closeProfile() {
+    profileOverlay.classList.remove('visible');
+  }
+
+  profileOverlay.addEventListener('click', (e) => {
+    if (e.target === profileOverlay) closeProfile();
+  });
+  profileCloseBtn.addEventListener('click', closeProfile);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeProfile();
   });
 
   render();
