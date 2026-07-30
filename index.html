@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ExShop #CHEAP - Avis clients</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #16171a;
+    --surface: #1e2023;
+    --surface-alt: #26282c;
+    --border: #313339;
+    --text: #e7e9ee;
+    --text-muted: #9298a3;
+    --accent: #5865f2;
+    --star: #e0a94a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  header {
+    padding: 48px 24px 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+  }
+  header img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    margin-bottom: 16px;
+    border: 2px solid var(--border);
+  }
+  header h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+  }
+  header p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+  }
+  .stat-card .value {
+    font-size: 26px;
+    font-weight: 700;
+  }
+  .stat-card .label {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 28px;
+    align-items: center;
+  }
+  .controls input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .rating {
+    color: var(--star);
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .source-tag {
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 3px 10px;
+    white-space: nowrap;
+  }
+  .card .meta {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .card .comment {
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+  .card img {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    max-height: 220px;
+    object-fit: cover;
+  }
+  .card .date {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: auto;
+  }
+  .empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 60px 0;
+  }
+  footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 24px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<header>
+  <img src="https://cdn.discordapp.com/icons/1529585731159457873/e7f79842196eefadfc67c474851ab771.webp?size=128" alt="Icone du serveur">
+  <h1>ExShop #CHEAP</h1>
+  <p>Avis et retours de notre communaute</p>
+</header>
+<main>
+  <div class="stats">
+    <div class="stat-card"><div class="value">0</div><div class="label">Avis au total</div></div>
+    <div class="stat-card"><div class="value">0.00 / 5</div><div class="label">Note moyenne</div></div>
+    <div class="stat-card"><div class="value">0</div><div class="label">Membres ayant laisse un avis</div></div>
+  </div>
+  <div class="controls">
+    <input type="text" id="search" placeholder="Rechercher un mot-cle...">
+    <button class="filter-btn active" data-rating="0">Tous</button>
+    <button class="filter-btn" data-rating="5">5</button>
+    <button class="filter-btn" data-rating="4">4</button>
+    <button class="filter-btn" data-rating="3">3</button>
+    <button class="filter-btn" data-rating="2">2</button>
+    <button class="filter-btn" data-rating="1">1</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none;">Aucun avis ne correspond a votre recherche.</div>
+</main>
+<footer>Genere automatiquement par VouchsBot</footer>
+<script id="vouch-data" type="application/json">[]</script>
+<script>
+  const data = JSON.parse(document.getElementById('vouch-data').textContent);
+  const grid = document.getElementById('grid');
+  const emptyState = document.getElementById('empty');
+  const searchInput = document.getElementById('search');
+  const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+  let currentRating = 0;
+  let currentQuery = '';
+
+  function ratingStars(rating) {
+    return '#'.repeat(rating) + '-'.repeat(5 - rating);
+  }
+
+  function formatDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+  }
+
+  function render() {
+    const filtered = data.filter((v) => {
+      if (currentRating !== 0 && v.rating !== currentRating) return false;
+      if (currentQuery) {
+        const haystack = [v.product, v.comment, v.seller, v.buyer].filter(Boolean).join(' ').toLowerCase();
+        if (!haystack.includes(currentQuery)) return false;
+      }
+      return true;
+    });
+
+    grid.innerHTML = '';
+    emptyState.style.display = filtered.length === 0 ? 'block' : 'none';
+
+    for (const vouch of filtered) {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const topRow = document.createElement('div');
+      topRow.className = 'top-row';
+      const ratingEl = document.createElement('div');
+      ratingEl.className = 'rating';
+      ratingEl.textContent = ratingStars(vouch.rating) + ' (' + vouch.rating + '/5)';
+      const sourceEl = document.createElement('div');
+      sourceEl.className = 'source-tag';
+      sourceEl.textContent = vouch.source;
+      topRow.appendChild(ratingEl);
+      topRow.appendChild(sourceEl);
+      card.appendChild(topRow);
+
+      if (vouch.product || vouch.seller) {
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const parts = [];
+        if (vouch.product) parts.push(vouch.product);
+        if (vouch.seller) parts.push('par ' + vouch.seller);
+        meta.textContent = parts.join(' - ');
+        card.appendChild(meta);
+      }
+
+      const comment = document.createElement('div');
+      comment.className = 'comment';
+      comment.textContent = vouch.comment;
+      card.appendChild(comment);
+
+      if (vouch.image) {
+        const img = document.createElement('img');
+        img.src = vouch.image;
+        img.loading = 'lazy';
+        img.alt = 'Preuve jointe';
+        card.appendChild(img);
+      }
+
+      const dateEl = document.createElement('div');
+      dateEl.className = 'date';
+      dateEl.textContent = formatDate(vouch.date);
+      card.appendChild(dateEl);
+
+      grid.appendChild(card);
+    }
+  }
+
+  searchInput.addEventListener('input', (e) => {
+    currentQuery = e.target.value.trim().toLowerCase();
+    render();
+  });
+
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentRating = Number(btn.dataset.rating);
+      render();
+    });
+  });
+
+  render();
+</script>
+</body>
+</html>
