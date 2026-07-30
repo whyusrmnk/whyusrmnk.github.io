@@ -294,9 +294,9 @@
 </header>
 <main>
   <div class="stats">
-    <div class="stat-card"><div class="value">0</div><div class="label">Avis au total</div></div>
-    <div class="stat-card"><div class="value">0.00 / 5</div><div class="label">Note moyenne</div></div>
-    <div class="stat-card"><div class="value">0</div><div class="label">Membres ayant laisse un avis</div></div>
+    <div class="stat-card"><div class="value">1</div><div class="label">Avis au total</div></div>
+    <div class="stat-card"><div class="value">5.00 / 5</div><div class="label">Note moyenne</div></div>
+    <div class="stat-card"><div class="value">1</div><div class="label">Membres ayant laisse un avis</div></div>
   </div>
   <div class="controls">
     <input type="text" id="search" placeholder="Rechercher un mot-cle...">
@@ -338,8 +338,8 @@
     </div>
   </div>
 </div>
-<script id="vouch-data" type="application/json">[]</script>
-<script id="profile-data" type="application/json">{}</script>
+<script id="vouch-data" type="application/json">[{"id":1,"rating":5,"product":null,"price":null,"seller":null,"sellerId":null,"buyer":"@indysky_","buyerId":"1454344785191239826","comment":"Très bon shop, legit et pleins de choses à buy, je recommande!","image":null,"date":"2026-07-30T10:48:38.334Z","source":"Avis general"}]</script>
+<script id="profile-data" type="application/json">{"1454344785191239826":{"tag":"@indysky_","avatar":"https://cdn.discordapp.com/avatars/1454344785191239826/084c7f546202921173f5dd898ae4d071.png?size=128","banner":null,"accentColor":null}}</script>
 <script>
   const data = JSON.parse(document.getElementById('vouch-data').textContent);
   const profiles = JSON.parse(document.getElementById('profile-data').textContent);
