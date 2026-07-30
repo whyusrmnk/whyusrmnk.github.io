@@ -136,6 +136,16 @@
     padding: 3px 10px;
     white-space: nowrap;
   }
+  .id-tag {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .tags-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
   .card .meta {
     font-size: 13px;
     color: var(--text-muted);
@@ -173,7 +183,7 @@
 </head>
 <body>
 <header>
-  <img src="https://cdn.discordapp.com/icons/1529585731159457873/e7f79842196eefadfc67c474851ab771.webp?size=128" alt="Icone du serveur">
+  
   <h1>ExShop #CHEAP</h1>
   <p>Avis et retours de notre communaute</p>
 </header>
@@ -240,8 +250,15 @@
       const sourceEl = document.createElement('div');
       sourceEl.className = 'source-tag';
       sourceEl.textContent = vouch.source;
+      const idEl = document.createElement('div');
+      idEl.className = 'id-tag';
+      idEl.textContent = '#' + vouch.id;
+      const tagsGroup = document.createElement('div');
+      tagsGroup.className = 'tags-group';
+      tagsGroup.appendChild(idEl);
+      tagsGroup.appendChild(sourceEl);
       topRow.appendChild(ratingEl);
-      topRow.appendChild(sourceEl);
+      topRow.appendChild(tagsGroup);
       card.appendChild(topRow);
 
       if (vouch.product || vouch.seller) {
