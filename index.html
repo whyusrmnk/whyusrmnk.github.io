@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ExShop #CHEAP - Avis clients</title>
+<title>Test ImgFix - Avis clients</title>
 <style>
   :root {
     color-scheme: dark;
@@ -288,8 +288,8 @@
 </head>
 <body>
 <header>
-  <img src="https://cdn.discordapp.com/icons/1529585731159457873/113eeebffa1b5767605ca82cfbddb558.webp?size=128" alt="Icone du serveur">
-  <h1>ExShop #CHEAP</h1>
+  
+  <h1>Test ImgFix</h1>
   <p>〃 Avis et retours de notre communauté 〃</p>
 </header>
 <main>
@@ -338,8 +338,8 @@
     </div>
   </div>
 </div>
-<script id="vouch-data" type="application/json">[{"id":2,"rating":5,"product":null,"price":null,"seller":null,"sellerId":null,"buyer":"@rzthl3ss","buyerId":"1513618034764419117","comment":"super vendeur, fast efficace pas cher allez achete en balle","image":null,"date":"2026-07-30T17:51:57.756Z","source":"Avis general"}]</script>
-<script id="profile-data" type="application/json">{"1513618034764419117":{"tag":"@rzthl3ss","avatar":"https://cdn.discordapp.com/avatars/1513618034764419117/9df5be138be7ba10005b049ba0a43114.png?size=128","banner":null,"accentColor":"#000000"}}</script>
+<script id="vouch-data" type="application/json">[{"id":1,"rating":5,"product":null,"price":null,"seller":null,"sellerId":null,"buyer":"@withGoodImage","buyerId":"aaa1","comment":"image locale valide","image":"images/does-not-exist.png","date":"2026-07-31T17:35:13.446Z","source":"Transaction verifiee"}]</script>
+<script id="profile-data" type="application/json">{"aaa1":{"tag":"@withGoodImage","avatar":null,"banner":null,"accentColor":null}}</script>
 <script>
   const data = JSON.parse(document.getElementById('vouch-data').textContent);
   const profiles = JSON.parse(document.getElementById('profile-data').textContent);
@@ -437,9 +437,10 @@
 
       if (vouch.image) {
         const img = document.createElement('img');
-        img.src = vouch.image;
         img.loading = 'lazy';
         img.alt = 'Preuve jointe';
+        img.addEventListener('error', () => img.remove());
+        img.src = vouch.image;
         card.appendChild(img);
       }
 
