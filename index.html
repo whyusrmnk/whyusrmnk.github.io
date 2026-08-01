@@ -159,6 +159,48 @@
     color: #fff;
     box-shadow: 0 8px 20px -8px rgba(184, 59, 70, 0.55);
   }
+  .refresh-btn {
+    margin-left: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .refresh-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(184, 59, 70, 0.4);
+  }
+  .refresh-btn.spinning {
+    opacity: 0.7;
+    cursor: default;
+    pointer-events: none;
+  }
+  .new-banner {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    animation: bannerIn 0.3s ease;
+  }
+  @keyframes bannerIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes newCardGlow {
+    0% { box-shadow: 0 0 0 3px rgba(184, 59, 70, 0.7), 0 26px 50px -20px rgba(184, 59, 70, 0.6); }
+    100% { box-shadow: 0 10px 26px -16px rgba(0, 0, 0, 0.7); }
+  }
+  .card.new-vouch {
+    animation: cardFadeIn 0.5s ease both, newCardGlow 2.5s ease;
+  }
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -416,6 +458,120 @@
     color: var(--text-muted);
     margin-top: 2px;
   }
+  .loader-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    width: auto;
+    margin: 2rem auto;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 1.6em;
+    font-weight: 600;
+    user-select: none;
+    color: var(--text);
+
+    scale: 2;
+  }
+  .loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+
+    background-color: transparent;
+    mask: repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 6px,
+      black 6px,
+      black 9px
+    );
+  }
+  .loader::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-image: radial-gradient(circle at 50% 50%, #ff0 0%, transparent 50%),
+      radial-gradient(circle at 45% 45%, #f00 0%, transparent 45%),
+      radial-gradient(circle at 55% 55%, #0ff 0%, transparent 45%),
+      radial-gradient(circle at 45% 55%, #0f0 0%, transparent 45%),
+      radial-gradient(circle at 55% 45%, #00f 0%, transparent 45%);
+    mask: radial-gradient(
+      circle at 50% 50%,
+      transparent 0%,
+      transparent 10%,
+      black 25%
+    );
+    animation:
+      loaderTransform 2s infinite alternate,
+      loaderOpacity 4s infinite;
+    animation-timing-function: cubic-bezier(0.6, 0.8, 0.5, 1);
+  }
+  @keyframes loaderTransform {
+    0% {
+      transform: translate(-55%);
+    }
+    100% {
+      transform: translate(55%);
+    }
+  }
+  @keyframes loaderOpacity {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    65% {
+      opacity: 0;
+    }
+  }
+  .loader-letter {
+    display: inline-block;
+    opacity: 0;
+    animation: loaderLetterAnim 4s infinite linear;
+    z-index: 2;
+  }
+  .loader-letter:nth-child(1) { animation-delay: 0.1s; }
+  .loader-letter:nth-child(2) { animation-delay: 0.205s; }
+  .loader-letter:nth-child(3) { animation-delay: 0.31s; }
+  .loader-letter:nth-child(4) { animation-delay: 0.415s; }
+  .loader-letter:nth-child(5) { animation-delay: 0.521s; }
+  .loader-letter:nth-child(6) { animation-delay: 0.626s; }
+  .loader-letter:nth-child(7) { animation-delay: 0.731s; }
+  .loader-letter:nth-child(8) { animation-delay: 0.837s; }
+  .loader-letter:nth-child(9) { animation-delay: 0.942s; }
+  .loader-letter:nth-child(10) { animation-delay: 1.047s; }
+  @keyframes loaderLetterAnim {
+    0% {
+      filter: blur(0px);
+      opacity: 0;
+    }
+    5% {
+      opacity: 1;
+      text-shadow: 0 0 4px rgba(184, 59, 70, 0.6);
+      filter: blur(0px);
+      transform: scale(1.1) translateY(-2px);
+    }
+    20% {
+      opacity: 0.2;
+      filter: blur(0px);
+    }
+    100% {
+      filter: blur(5px);
+      opacity: 0;
+    }
+  }
 </style>
 </head>
 <body>
@@ -438,6 +594,21 @@
     <button class="filter-btn" data-rating="3">3</button>
     <button class="filter-btn" data-rating="2">2</button>
     <button class="filter-btn" data-rating="1">1</button>
+    <button class="refresh-btn" id="refresh-btn" type="button">&#8635; Actualiser</button>
+  </div>
+  <div class="new-banner" id="new-banner" style="display:none;"></div>
+  <div class="loader-wrapper" id="refresh-loader" style="display:none;">
+    <span class="loader-letter">C</span>
+    <span class="loader-letter">h</span>
+    <span class="loader-letter">a</span>
+    <span class="loader-letter">r</span>
+    <span class="loader-letter">g</span>
+    <span class="loader-letter">e</span>
+    <span class="loader-letter">m</span>
+    <span class="loader-letter">e</span>
+    <span class="loader-letter">n</span>
+    <span class="loader-letter">t</span>
+    <div class="loader"></div>
   </div>
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" style="display:none;">Aucun avis ne correspond a votre recherche.</div>
@@ -473,14 +644,23 @@
 <script id="vouch-data" type="application/json">[{"id":29,"rating":5,"product":null,"price":null,"seller":null,"sellerId":null,"buyer":"@twiizixshop_65740","buyerId":"1400765262101479486","comment":"C’est un bonn","image":null,"receipt":null,"date":"2026-08-01T15:06:14.962Z","source":"Avis general"},{"id":28,"rating":5,"product":"Deco","price":null,"seller":"@ez.ltc","sellerId":"1488969972876181754","buyer":"@princekgb","buyerId":"1431375197021147247","comment":"Fast, rapide goatesque","image":null,"receipt":"receipts/receipt-28.png","date":"2026-08-01T15:04:37.414Z","source":"Transaction verifiee"},{"id":27,"rating":5,"product":null,"price":null,"seller":null,"sellerId":null,"buyer":"@princekgb","buyerId":"1431375197021147247","comment":"Les deux ils sont rapide et pas cher profitez sah","image":null,"receipt":null,"date":"2026-08-01T13:33:41.123Z","source":"Avis general"},{"id":26,"rating":5,"product":"Décoration profil","price":"1.8 ltc","seller":"@ez.ltc","sellerId":"1488969972876181754","buyer":"@princekgb","buyerId":"1431375197021147247","comment":"Fidele rapide et efficace","image":null,"receipt":"receipts/receipt-26.png","date":"2026-08-01T13:24:37.718Z","source":"Transaction verifiee"},{"id":25,"rating":5,"product":"Deco","price":"1.8 ltc","seller":"@ez.ltc","sellerId":"1488969972876181754","buyer":"@princekgb","buyerId":"1431375197021147247","comment":"5/5 il répond vite livre vite incroyable wallah","image":null,"receipt":"receipts/receipt-25.png","date":"2026-08-01T13:05:40.008Z","source":"Transaction verifiee"},{"id":23,"rating":5,"product":"DD05 Tool","price":"4.50€ ltc","seller":"@usrmnk","sellerId":"703714710721134662","buyer":"@indysky_","buyerId":"1454344785191239826","comment":"Vraiment très propre","image":null,"receipt":"receipts/receipt-23.png","date":"2026-08-01T03:21:32.891Z","source":"Transaction verifiee"},{"id":21,"rating":5,"product":"Nitro Discord x1","price":"4.1€ ltc","seller":"@usrmnk","sellerId":"703714710721134662","buyer":"@9ksm","buyerId":"358822251161845781","comment":"Rapide legit et parfait","image":null,"receipt":"receipts/receipt-21.png","date":"2026-08-01T01:53:44.083Z","source":"Transaction verifiee"},{"id":15,"rating":5,"product":null,"price":null,"seller":null,"sellerId":null,"buyer":"@clonerefadonis","buyerId":"1431375197021147247","comment":"C'est un bon de ouf il vend pas cher , il est honnete et sah jsp pk il y a si peu de gens il merite plus de customer sah ExShop c'est best market","image":null,"receipt":null,"date":"2026-07-31T20:52:53.495Z","source":"Avis general"},{"id":14,"rating":5,"product":"IA Claude Unlimited","price":"26€ LTC","seller":"@usrmnk","sellerId":"703714710721134662","buyer":"@clonerefadonis","buyerId":"1431375197021147247","comment":"","image":null,"receipt":null,"date":"2026-07-31T20:48:13.384Z","source":"Transaction verifiee"},{"id":2,"rating":5,"product":null,"price":null,"seller":null,"sellerId":null,"buyer":"@rzthl3ss","buyerId":"1513618034764419117","comment":"super vendeur, fast efficace pas cher allez achete en balle","image":null,"receipt":null,"date":"2026-07-30T17:51:57.756Z","source":"Avis general"}]</script>
 <script id="profile-data" type="application/json">{"1513618034764419117":{"tag":"@rzthl3ss","avatar":"https://cdn.discordapp.com/avatars/1513618034764419117/9df5be138be7ba10005b049ba0a43114.png?size=128","banner":null,"accentColor":"#000000"},"1431375197021147247":{"tag":"@clonerefadonis","avatar":"https://cdn.discordapp.com/avatars/1431375197021147247/e1bbbf1c0e6856150ad973208b16d1cc.png?size=128","banner":"https://cdn.discordapp.com/banners/1431375197021147247/96b33b64cfc841ef2c704684b8d219e9.png?size=512","accentColor":"#000000"},"703714710721134662":{"tag":"@usrmnk","avatar":"https://cdn.discordapp.com/avatars/703714710721134662/a_9ac33c5e6f43667cd4e6055df10786b0.gif?size=128","banner":"https://cdn.discordapp.com/banners/703714710721134662/a_460e3bd13b8e30e5b028de3c7857fb78.gif?size=512","accentColor":"#000000"},"358822251161845781":{"tag":"@9ksm","avatar":"https://cdn.discordapp.com/avatars/358822251161845781/6fd6d5ec6d3486484de365aef644d4bb.png?size=128","banner":null,"accentColor":null},"1454344785191239826":{"tag":"@indysky_","avatar":"https://cdn.discordapp.com/avatars/1454344785191239826/8672c39c2a060466242618eaa492f03e.png?size=128","banner":null,"accentColor":null},"1488969972876181754":{"tag":"@ez.ltc","avatar":"https://cdn.discordapp.com/avatars/1488969972876181754/0fe24ba2cbc3d3d42693111089f2cda1.png?size=128","banner":null,"accentColor":"#000000"},"1400765262101479486":{"tag":"@twiizixshop_65740","avatar":"https://cdn.discordapp.com/avatars/1400765262101479486/c844500b42eaef5dcbac5886e64ceb65.png?size=128","banner":null,"accentColor":null}}</script>
 <script>
-  const data = JSON.parse(document.getElementById('vouch-data').textContent);
-  const profiles = JSON.parse(document.getElementById('profile-data').textContent);
+  let data = JSON.parse(document.getElementById('vouch-data').textContent);
+  let profiles = JSON.parse(document.getElementById('profile-data').textContent);
   const grid = document.getElementById('grid');
   const emptyState = document.getElementById('empty');
   const searchInput = document.getElementById('search');
   const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+  const refreshBtn = document.getElementById('refresh-btn');
+  const newBanner = document.getElementById('new-banner');
+  const refreshLoader = document.getElementById('refresh-loader');
+  const REFRESH_LOADER_MIN_MS = 2200;
+
+  function wait(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
   let currentRating = 0;
   let currentQuery = '';
+  let newVouchIds = new Set();
 
   function ratingStars(rating) {
     return '#'.repeat(rating) + '-'.repeat(5 - rating);
@@ -515,7 +695,7 @@
 
     for (const vouch of filtered) {
       const card = document.createElement('div');
-      card.className = 'card';
+      card.className = newVouchIds.has(vouch.id) ? 'card new-vouch' : 'card';
       card.dataset.rating = String(vouch.rating);
 
       const topRow = document.createElement('div');
@@ -699,6 +879,65 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeProfile();
   });
+
+  function showBanner(message, duration) {
+    newBanner.textContent = message;
+    newBanner.style.display = 'block';
+    setTimeout(() => { newBanner.style.display = 'none'; }, duration);
+  }
+
+  async function refreshData() {
+    if (refreshBtn.classList.contains('spinning')) return;
+    refreshBtn.classList.add('spinning');
+    refreshLoader.style.display = 'flex';
+    const originalLabel = refreshBtn.textContent;
+    refreshBtn.textContent = 'Actualisation...';
+
+    try {
+      const [text] = await Promise.all([
+        (async () => {
+          const response = await fetch(location.pathname + '?t=' + Date.now(), { cache: 'no-store' });
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return response.text();
+        })(),
+        wait(REFRESH_LOADER_MIN_MS)
+      ]);
+
+      const parsedPage = new DOMParser().parseFromString(text, 'text/html');
+      const newDataScript = parsedPage.getElementById('vouch-data');
+      const newProfilesScript = parsedPage.getElementById('profile-data');
+      if (!newDataScript) throw new Error('Donnees introuvables dans la page actualisee');
+
+      const newData = JSON.parse(newDataScript.textContent);
+      const newProfiles = newProfilesScript ? JSON.parse(newProfilesScript.textContent) : {};
+
+      const existingIds = new Set(data.map((v) => v.id));
+      const arrivedIds = newData.filter((v) => !existingIds.has(v.id)).map((v) => v.id);
+
+      data = newData;
+      profiles = newProfiles;
+      newVouchIds = new Set(arrivedIds);
+
+      render();
+
+      if (arrivedIds.length > 0) {
+        showBanner(
+          arrivedIds.length === 1 ? "1 nouvel avis vient d'arriver !" : arrivedIds.length + " nouveaux avis viennent d'arriver !",
+          6000
+        );
+      } else {
+        showBanner('Aucun nouvel avis pour le moment.', 3000);
+      }
+    } catch (err) {
+      showBanner("Impossible d'actualiser pour le moment. Reessayez plus tard.", 4000);
+    } finally {
+      refreshLoader.style.display = 'none';
+      refreshBtn.classList.remove('spinning');
+      refreshBtn.textContent = originalLabel;
+    }
+  }
+
+  refreshBtn.addEventListener('click', refreshData);
 
   render();
 </script>
