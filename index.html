@@ -488,7 +488,7 @@
 
   function formatDate(iso) {
     const d = new Date(iso);
-    return d.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+    return d.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Europe/Paris' });
   }
 
   function createMention(userId, label) {
