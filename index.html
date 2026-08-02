@@ -599,7 +599,7 @@
 <main>
   <div class="stats">
     <div class="stat-card"><div class="value">1</div><div class="label">Total (Vouch + Avis)</div></div>
-    <div class="stat-card"><div class="value">5.00 / 5</div><div class="label">Note moyenne</div></div>
+    <div class="stat-card"><div class="value">3.00 / 5</div><div class="label">Note moyenne</div></div>
     <div class="stat-card"><div class="value">1</div><div class="label">Membres ayant publié un avis (No-Vouch)</div></div>
   </div>
   <div class="controls">
@@ -659,8 +659,8 @@
     </div>
   </div>
 </div>
-<script id="vouch-data" type="application/json">[{"id":1,"rating":5,"product":"Nouveau produit","price":"20 EUR","seller":"@OldVendeur","sellerId":"222","buyer":"@OldClient","buyerId":"111","comment":"Finalement tres bien !","image":null,"receipt":"receipts/receipt-1.png","date":"2026-08-02T21:54:38.518Z","source":"Transaction verifiee"}]</script>
-<script id="profile-data" type="application/json">{"111":{"tag":"@OldClient","avatar":null,"banner":null,"accentColor":null},"222":{"tag":"@OldVendeur","avatar":null,"banner":null,"accentColor":null}}</script>
+<script id="vouch-data" type="application/json">[{"id":1,"rating":3,"product":null,"price":null,"seller":"@user_888888888888888888","sellerId":"888888888888888888","buyer":"@user_999999999999999999","buyerId":"999999999999999999","comment":"Correct","image":null,"receipt":null,"date":"2026-08-02T21:55:23.940Z","source":"Avis general"}]</script>
+<script id="profile-data" type="application/json">{"999999999999999999":{"tag":"@user_999999999999999999","avatar":"http://x/avatar.png","banner":null,"accentColor":null},"888888888888888888":{"tag":"@user_888888888888888888","avatar":"http://x/avatar.png","banner":null,"accentColor":null}}</script>
 <script>
   let data = JSON.parse(document.getElementById('vouch-data').textContent);
   let profiles = JSON.parse(document.getElementById('profile-data').textContent);
